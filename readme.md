@@ -2,7 +2,7 @@
 
 ## Descripción
 
-En este desafío de programación, te invitamos a construir tu propio catálogo de libros: LiterAlura. Aprenderás a realizar solicitudes a una API de libros, a manipular datos JSON, guardarlos en una base de datos y, finalmente, a filtrar y mostrar los libros y autores de interés.
+En este desafío de programación, se crea un catálogo de libros: LiterAlura. Se raelizan solicitudes a una API de libros, a manipular datos JSON, guardarlos en una base de datos y, finalmente, se filtra y muestrar los libros y autores de interés.
 
 ## Objetivos
 
