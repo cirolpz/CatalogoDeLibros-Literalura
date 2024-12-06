@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class LibroService {
@@ -29,9 +31,13 @@ public class LibroService {
         String json = obtenerJson(searchURL);
         DatosAPI datos = convertirDatos(json);
         Optional<LibroDAO> resultadoBusqueda = buscarPrimerResultado(datos);
-        Libro libroEncontrado = convertirLibro(resultadoBusqueda);
-        imprimirLibro(libroEncontrado);
-        guardarLibro(libroEncontrado);
+        if (resultadoBusqueda.isPresent()) {
+            Libro libroEncontrado = convertirLibro(resultadoBusqueda);
+            imprimirLibro(libroEncontrado);
+            guardarLibro(libroEncontrado);
+        } else {
+            System.out.println("No se encontraron resultados para: " + libro);
+        }
     }
 
     private String encodeLibro(String libro) throws UnsupportedEncodingException {
@@ -67,22 +73,23 @@ public class LibroService {
         return libro;
     }
 
-    public void guardarLibro(Libro libro){
-        try{
-            libroRepository.save(libro);
-        }catch (NullPointerException e){
-            throw new NullPointerException();
-        }
+public void guardarLibro(Libro libro) {
+    Optional<Libro> libroExistente = libroRepository.findByTitulo(libro.getTitulo());
+    if (libroExistente.isPresent()) {
+        System.out.println("El libro ya está guardado en la base de datos: " + libro.getTitulo());
+    } else {
+        libroRepository.save(libro);
+        System.out.println("Libro guardado: " + libro.getTitulo());
     }
-
+}
     public void listarLibros(){
-        List<Libro> libros = libroRepository.findAll();
+        Set<Libro> libros = new HashSet<>(libroRepository.findAll());
         libros.forEach(System.out::println);
     }
 
     public void listarLibrosIdioma(String idioma){
         if (idioma.equalsIgnoreCase("otro")){
-            List<String> titulos = libroRepository.listarLibrosPorIdioma(idioma);
+            Set<String> titulos = new HashSet<>(libroRepository.listarLibrosPorIdioma(idioma));
             if (titulos.isEmpty()){
                 System.out.println("No hay libros regitrados con ese idioma");
             }else{

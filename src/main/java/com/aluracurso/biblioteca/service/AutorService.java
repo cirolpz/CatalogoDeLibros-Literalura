@@ -4,7 +4,9 @@ import com.aluracurso.biblioteca.entity.Autor;
 import com.aluracurso.biblioteca.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class AutorService {
@@ -16,15 +18,15 @@ public class AutorService {
     }
 
     public void listarAutores(){
-        List<Autor> listaAutores = autorRepository.findAll();
+        Set<Autor> listaAutores = new HashSet<>(autorRepository.findAll());
         listaAutores.forEach(System.out::println);
     }
 
     public void listarAutoresPorFecha(int fecha){
-        List<Autor> listaAutores = autorRepository.listarAutoresMuertosAntesDeEstaFecha(fecha);
+        Set<Autor> listaAutores = new HashSet<>(autorRepository.listarAutoresMuertosAntesDeEstaFecha(fecha));
         if (listaAutores.isEmpty()){
             System.out.println("No hay autores en esa fecha");
-        }else {
+        } else {
             listaAutores.forEach(System.out::println);
         }
     }
