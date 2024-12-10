@@ -1,5 +1,6 @@
 # LiterAlura - Catálogo de Libros
--https://youtu.be/KUofJNdpvmo
+
+[![Video del Proyecto](https://img.youtube.com/vi/KUofJNdpvmo/maxresdefault.jpg)](https://www.youtube.com/watch?v=KUofJNdpvmo)
 
 ## Descripción
 
